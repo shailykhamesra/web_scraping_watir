@@ -7,12 +7,13 @@ Spreadsheet.client_encoding = 'UTF-8'
 information = Spreadsheet::Workbook.new
 sheet1 = information.create_worksheet :name => 'JVVNL'
 sheet1.row(0).push  'Name', 'K Number', 'Binder No', 'Account No', 'Amount'
-10.times do |n|
+puts "Enter the number of user bills to be parsed"
+value = gets.chomp.to_i
+value.times do |n|
   @url = browser.goto('https://www.billdesk.com/pgidsk/pgmerc/jvvnljp/JVVNLJPDetails.jsp?billerid=RVVNLJP')
-  k_num = (210742023980+n).to_s
   form = browser.form(name: 'form1')
   form.radio(name: 'service',:value => 'BILL').set
-  form.text_field(name: 'txtCustomerID').set(k_num)
+  form.text_field(name: 'txtCustomerID').set((210742023980+n).to_s)
   form.text_field(name: 'txtEmail').set(Faker::Internet.email)
   form.button(class_name: 'subtn').click
   browser.screenshot.save ("preview_browser#{n}.png")
